@@ -1,9 +1,13 @@
 import './style.css';
 import {NavLink } from "react-router-dom"
 import React from "react"
+import {useSelector} from "react-redux";
+import {selectUser} from "./features/userSlice"
 
 
 function Header() {
+  const user = useSelector(selectUser)
+
   return (
     <div className="App">
       <nav className="main-nav">
@@ -18,7 +22,7 @@ function Header() {
       <div>
         <NavLink className="main-nav-item" to='/sign-in'>
           <i className="fa fa-user-circle"></i>
-          Sign In
+         {user ? "Sign In" : "Sign Out"}
         </NavLink>
       </div>
     </nav>
