@@ -20,6 +20,8 @@ module.exports.createUser = async serviceData => {
 
     let result = await newUser.save()
 
+  
+
     return result
   } catch (error) {
     console.error('Error in userService.js', error)
@@ -46,6 +48,7 @@ module.exports.getUserProfile = async serviceData => {
 
 module.exports.loginUser = async serviceData => {
   try {
+    console.log(serviceData)
     const user = await User.findOne({ email: serviceData.email })
 
     if (!user) {

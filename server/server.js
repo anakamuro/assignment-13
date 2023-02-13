@@ -6,6 +6,16 @@ const yaml = require('yamljs')
 const swaggerDocs = yaml.load('./swagger.yaml')
 const dbConnection = require('./database/connection')
 
+
+
+const corsOptions = {
+  origin: ['http://localhost:3000'],
+  methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'PUT', 'DELETE'],
+  optionsSuccessStatus: 200,
+};
+
+
+
 dotEnv.config()
 
 const app = express()
@@ -15,7 +25,8 @@ const PORT = process.env.PORT || 8000
 dbConnection()
 
 // Handle CORS issues
-app.use(cors())
+app.options('*', cors(corsOptions));
+app.use(cors(corsOptions))
 
 // Request payload middleware
 app.use(express.json())

@@ -1,19 +1,20 @@
 import Home from "./components/Home"
-import SignIn from "./components/SignIn"
+import SignIn from "./components/Login"
 import Footer from "./components/Footer"
-import Header from "./components/Header"
 import User from "./components/User"
+//import Header from "./components/Header"
+import SignUp from "./components/Signup"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
     <div>
       <Router>
-      <Header/>
       <Routes>
       <Route exact path='/' element={<Home/>}/>
-      <Route path='/sign-in' element={<SignIn/>}/>
-      <Route path='/user' element={<User/>}/>
+      <Route exact path='/sign-in' element={<SignIn/>}/>
+      <Route exact path='/sign-up' element={<SignUp/>}/>
+      <Route exact path='/user' element={<User/>}/>
       </Routes>
       <Footer/>
       </Router>

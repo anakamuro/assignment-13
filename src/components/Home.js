@@ -1,9 +1,25 @@
 import './style.css';
 import React from "react"
+import { Link } from "react-router-dom"
 
 function Home() {
   return (
     <div>
+      <nav class="main-nav">
+      <Link class="main-nav-logo" to="/">
+        
+        <div
+          class="main-nav-logo-image"
+        />
+        <h1 class="sr-only">Argent Bank</h1>
+      </Link>
+      <div>
+        <Link class="main-nav-item" to="./sign-in">
+          <i class="fa fa-user-circle"></i>
+          Sign In
+        </Link>
+      </div>
+    </nav>
     <main>
       <div className="hero">
         <section className="hero-content">

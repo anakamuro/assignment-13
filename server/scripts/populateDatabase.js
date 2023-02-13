@@ -1,5 +1,5 @@
 const axios = require('axios')
-const signupApi = 'http://localhost:3002/api/v1/user/signup'
+const signupApi = 'http://localhost:8000/api/v1/user/signup'
 
 const users = [
   {
