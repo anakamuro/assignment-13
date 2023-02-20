@@ -37,16 +37,16 @@ function SignUp() {
   
   return (
     <div>
-       <nav class="main-nav">
-      <Link class="main-nav-logo" to="/">
+       <nav className="main-nav">
+      <Link className="main-nav-logo" to="/">
         <div
-          class="main-nav-logo-image"
+          className="main-nav-logo-image"
         />
-        <h1 class="sr-only">Argent Bank</h1>
+        <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        <Link class="main-nav-item" to="/sign-in">
-          <i class="fa fa-user-circle"></i>
+        <Link className="main-nav-item" to="/sign-in">
+          <i className="fa fa-user-circle"></i>
           Sign UP
         </Link>
       </div>
@@ -57,7 +57,7 @@ function SignUp() {
         <h1>Sign Up</h1>
         <form onSubmit={(e) => handleSubmit(e)}>
         <div className="input-wrapper">
-            <label for="username">First Name</label>
+            <label htmlFor="username">First Name</label>
             <input 
                type="text" 
                placeholder="first name"
@@ -67,7 +67,7 @@ function SignUp() {
                />
           </div>
           <div className="input-wrapper">
-            <label for="username">Last Name</label>
+            <label htmlFor="username">Last Name</label>
             <input 
                type="text" 
                placeholder="lastName"
@@ -77,7 +77,7 @@ function SignUp() {
                />
           </div>
           <div className="input-wrapper">
-            <label for="username">Email</label>
+            <label htmlFor="username">Email</label>
             <input 
                type="text" 
                placeholder="email"
@@ -87,7 +87,7 @@ function SignUp() {
                />
           </div>
           <div className="input-wrapper">
-            <label for="password">Password</label>
+            <label htmlFor="password">Password</label>
             <input 
                type="password" 
                placeholder="password"

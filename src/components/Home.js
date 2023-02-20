@@ -5,17 +5,17 @@ import { Link } from "react-router-dom"
 function Home() {
   return (
     <div>
-      <nav class="main-nav">
-      <Link class="main-nav-logo" to="/">
+      <nav className="main-nav">
+      <Link className="main-nav-logo" to="/">
         
         <div
-          class="main-nav-logo-image"
+          className="main-nav-logo-image"
         />
-        <h1 class="sr-only">Argent Bank</h1>
+        <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        <Link class="main-nav-item" to="./sign-in">
-          <i class="fa fa-user-circle"></i>
+        <Link className="main-nav-item" to="./sign-in">
+          <i className="fa fa-user-circle"></i>
           Sign In
         </Link>
       </div>

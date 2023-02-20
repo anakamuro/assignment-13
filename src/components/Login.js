@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux"
 import { post } from "../util/fetch";
 import { login } from "../features/userSlice.js"
 import { Link, useNavigate } from "react-router-dom"
+import { TOKEN, USER_STORAGE_KEY } from "../util/constants";
 
 function SignIn() {
   const path = useNavigate()
@@ -23,6 +24,9 @@ function SignIn() {
       password
     }).then((response) => {
       const data = response.data.body
+      // save user data to localstorage, so when app refreshes, // we'll get it and dispatch to redux store
+      window.localStorage.setItem(TOKEN, JSON.stringify(data))
+
       dispatch(login(data))
       path('/user')
     }).catch((error) => {
@@ -33,16 +37,16 @@ function SignIn() {
 
   return (
     <div>
-      <nav class="main-nav">
-        <Link class="main-nav-logo" to="/">
+      <nav className="main-nav">
+        <Link className="main-nav-logo" to="/">
           <div
-            class="main-nav-logo-image"
+            className="main-nav-logo-image"
           />
-          <h1 class="sr-only">Argent Bank</h1>
+          <h1 className="sr-only">Argent Bank</h1>
         </Link>
         <div>
-          <Link class="main-nav-item" to="/sign-in">
-            <i class="fa fa-user-circle"></i>
+          <Link className="main-nav-item" to="/sign-in">
+            <i className="fa fa-user-circle"></i>
             Sign In
           </Link>
         </div>
@@ -53,7 +57,7 @@ function SignIn() {
           <h1>Sign In</h1>
           <form onSubmit={(e) => handleSubmit(e)}>
             <div className="input-wrapper">
-              <label for="username">Username</label>
+              <label htmlFor="username">Username</label>
               <input
                 type="text"
                 placeholder="Username"
@@ -63,7 +67,7 @@ function SignIn() {
               />
             </div>
             <div className="input-wrapper">
-              <label for="password">Password</label>
+              <label htmlFor="password">Password</label>
               <input
                 type="password"
                 placeholder="password"
@@ -73,7 +77,7 @@ function SignIn() {
               />
             </div>
             <div className="input-remember">
-              <input type="checkbox" id="remember-me" /><label for="remember-me"
+              <input type="checkbox" id="remember-me" /><label htmlFor="remember-me"
               >Remember me</label
               >
             </div>

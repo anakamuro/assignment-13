@@ -1,4 +1,5 @@
 import {logout, selectUser} from "./features/userSlice";
+import {useDispatch} from "react-redux"
 
 const Signout = () => {
     const user = userSelector(selectUser)
@@ -15,7 +16,7 @@ const Signout = () => {
             <h1>
             Welcome <span className="user__name">Name</span>
             </h1>{" "}
-            <button classNmae="logout_button" onClick={(e) => handleLogout(e)}>
+            <button className="logout_button" onClick={(e) => handleLogout(e)}>
             </button>
         </div>
     )
