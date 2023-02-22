@@ -18,6 +18,7 @@ export const setAuthToken = (token) =>{
 
 export async function post(path, data) {
     try {
+        //setAuthToken()
         const response = await instance.post(path, data)
         return response;
        
@@ -28,8 +29,11 @@ export async function post(path, data) {
 
 }
 
+
+
 export async function put(path, data) {
     try {
+        //setAuthToken()
         const response = await instance.put(path, JSON.stringify(data))
         return response;
     } catch (error) {
@@ -41,8 +45,9 @@ export async function put(path, data) {
 
 export async function get(path) {
     try {
+        //setAuthToken()
         const response = await instance.get(path)
-        console.log(response)
+       
         return JSON.parse(response)
     } catch (error) {
         throw error

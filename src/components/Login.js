@@ -23,16 +23,21 @@ function SignIn() {
       email: username,
       password
     }).then((response) => {
+      console.log(response)
       const data = response.data.body
+      console.log(data)
       // save user data to localstorage, so when app refreshes, // we'll get it and dispatch to redux store
       window.localStorage.setItem(TOKEN, JSON.stringify(data))
-
       dispatch(login(data))
       path('/user')
     }).catch((error) => {
       console.log(error)
     })
 
+  }
+  
+  function Signup(){
+    path('/sign-up')
   }
 
   return (
@@ -80,8 +85,9 @@ function SignIn() {
               <input type="checkbox" id="remember-me" /><label htmlFor="remember-me"
               >Remember me</label
               >
+              <button className="nmem" onClick={Signup}>Not a Member</button>
             </div>
-
+           
             <button type="submit" className="sign-in-button">Sign In</button>
           </form>
         </section>

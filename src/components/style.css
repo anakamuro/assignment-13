@@ -210,10 +210,13 @@ html {
   
   .input-remember {
     display: flex;
+    justify-content: space-between;
   }
   
   .input-remember label {
-    margin-left: 0.25rem;
+    margin-right: 1.4rem;
+    font-size: 14px;
+    font-weight: 500;
   }
   
   .input-wrapper {
@@ -318,5 +321,14 @@ html {
     .transaction-button {
       width: 200px;
     }
+  }
+  .signin {
+   position: relative;
+   top: 10px;
+   left: 35%;
+  }
+  .text1 {
+    height: 33px;
+    margin-right: 1%;
   }
   

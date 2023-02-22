@@ -1,31 +1,46 @@
-import {createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
+// import { getUserProfile } from "../../server/services/userService"
+
 
 export const userSlice = createSlice({
-    name: "user", 
+    name: "user",
     initialState: {
-        user: null, 
-        firstName: '', 
-        lastName: ''
-    }, 
+        user: null,
+        // firstName: '',
+        // lastName: ''
+        userProfile: {
+            firstName: '',
+            lastName: ''
+        }
+    },
     reducers: {
         login: (state, action) => {
             state.user = action.payload
-        }, 
+        },
         logout: (state) => {
             state.user = null
         },
 
         updateProfile: (state, action) => {
-            state = {
-                ...state,
-                firstName: action.payload.firstName,
-                lastName: action.payload.lastName
-            } 
+
+            state.userProfile = {
+
+                firstName: action.payload.data?.firstName,
+                lastName: action.payload.data?.lastName
+            }
+            
+        },
+
+        getUserProfile: (state, action) => {
+            state.userProfile = {
+                firstName: action.payload.data?.firstName,
+                lastName: action.payload.data?.lastName
+            }
         }
     }
 })
 
-export const {login, logout,  updateProfile} = userSlice.actions;
+export const { login, logout, updateProfile, getUserProfile } = userSlice.actions;
 
 export const selectUser = (state) => state.user.user;
 

@@ -27,6 +27,7 @@
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.1.4",
     "web-vitals": "^2.1.4",
     "yamljs": "^0.3.0"

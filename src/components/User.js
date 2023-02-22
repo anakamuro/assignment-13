@@ -1,19 +1,25 @@
 import './style.css';
-import React, { useEffect, useMemo } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { post, setAuthToken } from '../util/fetch'
 import { login } from "../features/userSlice.js"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux';
 import store from '../app/store';
 import { TOKEN } from '../util/constants';
-import { updateProfile } from '../features/userSlice.js';
+import { put ,get} from "../util/fetch";
+import { updateProfile,getUserProfile } from '../features/userSlice.js';
 
 
 function User() {
+  const [userData, setUserData] = useState({
+    firstName: '',
+    lastName: " "
+  })
   const dispatch = useDispatch()
 
   // immediate state return; this is better for immediate state update
-  const {user} = useSelector(state=>state.user)
+  const  user  = useSelector(state => state.user)
+ 
 
 
   useEffect(() => {
@@ -21,35 +27,54 @@ function User() {
     let user = window.localStorage.getItem(TOKEN)
     if (user) {
       user = JSON.parse(user)
+      console.log(user)
       setAuthToken(user?.token)
     }
     post('/user/profile').then((data) => {
       const currentUser = data.data.body;
-      dispatch(login(currentUser))
+     
+       dispatch(getUserProfile({data:{firstName:currentUser.firstName,lastName:currentUser.lastName}}))
     })
   }, [])
 
+
+
+  const updateUserProfile = (event) => {
+
+    event.preventDefault()
+    put('/user/profile', userData).then(() => {
+      dispatch(updateProfile({ data: userData }))
+  })
+
+   
+
+  }
+
+  const handleChange = (event) => {
+    setUserData({
+      ...userData,
+      [event.target.name]: event.target.value
+    })
+  }
   //  const fullName = useMemo(()=>{
   //   return `${user?.firstName} ${user?.lastName}`
   // }, [user])
 
 
- 
+
   return (
     <div className="App">
       <nav className="main-nav">
         <Link className="main-nav-logo" href="/">
-          <img
+          <div
             className="main-nav-logo-image"
-            src="./img/argentBankLogo.png"
-            alt="Argent Bank Logo"
           />
           <h1 className="sr-only">Argent Bank</h1>
         </Link>
         <div>
           <Link className="main-nav-item" to="/user">
             <i className="fa fa-user-circle"></i>
-            {user?.firstName + ' ' + user?.lastName}
+            {user.userProfile.firstName + ' ' + user.userProfile.lastName}
           </Link>
           <Link className="main-nav-item" to="/sign-in">
             <i className="fa fa-sign-out"></i>
@@ -59,8 +84,10 @@ function User() {
       </nav>
       <main className="main bg-dark">
         <div className="header">
-          <h1>Welcome back<br />{user?.firstName + ' ' + user?.lastName}!</h1>
-          <button className="edit-button" /*onClick={()=> dispatch(FullName)}*/ >Edit Name</button>
+          <h1>Welcome back<br />{user.userProfile.firstName + ' ' + user.userProfile.lastName}!</h1>
+          <input type='text' className="text1"name='firstName' onChange={handleChange} />
+          <input type='text' className="text1" name='lastName' onChange={handleChange} />
+          <button className="edit-button" onClick={updateUserProfile} >Edit Name</button>
         </div>
         <h2 className="sr-only">Accounts</h2>
         <section className="account">

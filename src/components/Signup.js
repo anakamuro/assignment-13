@@ -34,6 +34,10 @@ function SignUp() {
      })
    
   }
+
+  function Signin(){
+    path('/sign-in')
+  }
   
   return (
     <div>
@@ -99,6 +103,7 @@ function SignUp() {
           
          
           <button type="submit" className="sign-in-button">Sign Up</button>
+          <button className="signin" onClick={Signin}>Sign In</button>
         </form>
       </section>
     </main>
