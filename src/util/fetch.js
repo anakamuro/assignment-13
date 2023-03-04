@@ -1,5 +1,7 @@
+
 import Axios from "axios";
 import store from '../app/store'
+
 
 const state = store.getState().user?.user
 
@@ -25,6 +27,17 @@ export async function post(path, data) {
     } catch (error) {
         throw error
     }
+}
+
+export async function getAllUser(path, data) {
+    try {
+        //setAuthToken()
+        const response = await instance.post(path, data)
+        return response;
+       
+    } catch (error) {
+        throw error
+    }
 
 
 }
@@ -39,16 +52,24 @@ export async function put(path, data) {
     } catch (error) {
         throw error
     }
-
-
 }
+/*
+export async function delete(path, data) {
+    try {
+        //setAuthToken()
+        const response = await instance.put(path, JSON.stringify(data))
+        return response;
+    } catch (error) {
+        throw error
+    }
+}*/
 
 export async function get(path) {
     try {
         //setAuthToken()
         const response = await instance.get(path)
-       
         return JSON.parse(response)
+        console.log(response)
     } catch (error) {
         throw error
     }
@@ -65,7 +86,5 @@ export async function loginUser(path) {
     }
 
 }
-
-
 
 

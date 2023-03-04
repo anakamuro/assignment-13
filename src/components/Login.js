@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import './style.css';
 import { useDispatch } from "react-redux"
 //import User from "./User"
 //import Home from "./Home"
-import { post } from "../util/fetch";
+import { post,get } from "../util/fetch";
 import { login } from "../features/userSlice.js"
 import { Link, useNavigate } from "react-router-dom"
 import { TOKEN, USER_STORAGE_KEY } from "../util/constants";
@@ -15,7 +15,15 @@ function SignIn() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
+  useEffect(()=>{
+     getAllUser().then((data)=>{
+       console.log(data)
+     })
+  },[])
 
+  const getAllUser = async ()=>{
+    return await post('/user/all')
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -7,6 +7,11 @@ router.post('/signup', userController.createUser)
 
 router.post('/login', userController.loginUser)
 
+// PRIVATE ENDPOINT
+
+router.post('/all', tokenValidation.validateToken,userController.getUsers)
+
+
 router.post(
   '/profile',
   tokenValidation.validateToken,

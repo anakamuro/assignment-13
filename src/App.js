@@ -1,3 +1,5 @@
+import React from "react"
+//import {useEffect} from "react"
 import Home from "./components/Home"
 import SignIn from "./components/Login"
 import Footer from "./components/Footer"
@@ -5,8 +7,45 @@ import User from "./components/User"
 //import Header from "./components/Header"
 import SignUp from "./components/Signup"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+//import axios from "axios"
+//import { getAllUser } from "./util/fetch"
+//import { post } from "../util/fetch";
+//import { users } from "../server/scripts/populateDatabase"
+//import { signupApi } from "./server/scripts/populateDatabase"
+//import * as usersAPI from '../src/util/user-api'
 
-function App() {
+class App extends React.Component {
+
+		// GET request for items
+    /*
+		async function getUser() {
+			const user = await usersAPI.getAll()
+     console.log(user)
+    }
+		getUser()
+ */
+  /*
+state = {
+  post: []
+}
+componentDidMount = () => {
+  this.getPost()
+}
+
+getPost = () => {
+  axios.get('http://localhost:3000/api/v1/user/signup')
+  .then((response) => {
+    const data = response.data
+    this.setState({ posts: data})
+    console.log(data)
+  })
+  .catch(() => {
+    alert('error')
+  })
+}
+*/
+
+  render(){
   return (
     <div>
       <Router>
@@ -20,6 +59,8 @@ function App() {
       </Router>
     </div>
   );
+  }
 }
 
-export default App;
+export default App
+

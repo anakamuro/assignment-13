@@ -97,3 +97,21 @@ module.exports.updateUserProfile = async serviceData => {
     throw new Error(error)
   }
 }
+
+
+module.exports.getUsers = async (serviceData)=>{
+  try {
+    const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
+    const decodedJwtToken = jwt.decode(jwtToken)
+    const user = await User.findOne({ _id: decodedJwtToken.id })
+
+    if (!user) {
+      throw new Error('User is not authorized!')
+    }
+    const users = await User.find()
+    return users
+  } catch (error) {
+    console.error('Error in userService.js', error)
+    throw new Error(error)
+  }
+}

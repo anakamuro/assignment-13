@@ -11,9 +11,10 @@ import { updateProfile,getUserProfile } from '../features/userSlice.js';
 
 
 function User() {
+  const [inputValue, setInputValue] = useState('')
   const [userData, setUserData] = useState({
     firstName: '',
-    lastName: " "
+    lastName: ''
   })
   const dispatch = useDispatch()
 
@@ -30,6 +31,7 @@ function User() {
       console.log(user)
       setAuthToken(user?.token)
     }
+   
     post('/user/profile').then((data) => {
       const currentUser = data.data.body;
      
@@ -40,14 +42,10 @@ function User() {
 
 
   const updateUserProfile = (event) => {
-
-    event.preventDefault()
+     event.preventDefault()
     put('/user/profile', userData).then(() => {
       dispatch(updateProfile({ data: userData }))
   })
-
-   
-
   }
 
   const handleChange = (event) => {
@@ -56,10 +54,16 @@ function User() {
       [event.target.name]: event.target.value
     })
   }
+
+  const cancelProfile = (event) => {
+    event.preventDefault()
+    setUserData({firstName: '', lastName: ''})
+   
+  }
   //  const fullName = useMemo(()=>{
   //   return `${user?.firstName} ${user?.lastName}`
   // }, [user])
-
+ 
 
 
   return (
@@ -85,9 +89,11 @@ function User() {
       <main className="main bg-dark">
         <div className="header">
           <h1>Welcome back<br />{user.userProfile.firstName + ' ' + user.userProfile.lastName}!</h1>
-          <input type='text' className="text1"name='firstName' onChange={handleChange} />
-          <input type='text' className="text1" name='lastName' onChange={handleChange} />
-          <button className="edit-button" onClick={updateUserProfile} >Edit Name</button>
+          <input type='text' className="text1"name='firstName' onChange={handleChange} value={userData.firstName} />
+          <input type='text' className="text1" name='lastName' onChange={handleChange} value={userData.lastName}/>
+          <br/>
+          <button className="edit-button" onClick={updateUserProfile} >Save</button>
+          <button type="button" className="cancel-button" onClick={cancelProfile} >Cancel</button>
         </div>
         <h2 className="sr-only">Accounts</h2>
         <section className="account">
