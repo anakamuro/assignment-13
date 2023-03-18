@@ -32,11 +32,11 @@ function SignIn() {
       password
     }).then((response) => {
       console.log(response)
-      const data = response.data.body
-      console.log(data)
+      const token = response.data.token
+      console.log(token)
       // save user data to localstorage, so when app refreshes, // we'll get it and dispatch to redux store
-      window.localStorage.setItem(TOKEN, JSON.stringify(data))
-      dispatch(login(data))
+      window.localStorage.setItem(TOKEN, JSON.stringify(token))
+      dispatch(login(token))
       path('/user')
     }).catch((error) => {
       console.log(error)
