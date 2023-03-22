@@ -4,79 +4,106 @@ info:
   description: Contains all available API endpoints in this codebase
   version: '1.0.0'
   termsOfService: 'http://swagger.io/terms/'
-host: localhost:3001
-basePath: /api/v1
+host: localhost:8000
+basePath: /api/v1/
 schemes:
   - http
 paths:
-  /user/login:
+  user/transactions:
     post:
       tags:
         - User Module
-      summary: Login
-      description: API for Login
+      summary: transaction
+      description: API for transaction
       parameters:
         - in: body
           name: body
-          description: Login Payload
+          description: Transaction Payload
           required: true
           schema:
-            $ref: '#/definitions/Login'
+            $ref: '#/definitions/Transaction'
       produces:
         - application/json
       responses:
         '200':
-          description: Login Successfully
+          description: transaction came Successfully
           schema:
-            $ref: '#/definitions/LoginResponse'
+            type: object
+            items:
+             type: object
+             properties:
+              id:
+                type: number
+                description: the id of the transaction
+              date:
+                type: string
+                description: date of transaction
+              description:
+                type: string
+                description: The name of the company
+              amount:
+                type: number
+                description: The amount of money
+              balance:
+                type: number
+                description: The balance of the account 
         '400':
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /user/signup:
-    post:
+  /user/transactions:
+    get:
       tags:
         - User Module
-      summary: Signup
-      description: API for Signup
-      parameters:
-        - in: body
-          name: body
-          description: Signup Payload
-          required: true
-          schema:
-            $ref: '#/definitions/User'
+      summary: get
+      description: API for Transaction get 
       produces:
         - application/json
       responses:
         '200':
-          description: Signup Successfully
-          schema:
-            $ref: '#/definitions/ApiResponse'
+          description: Get Transaction Successfully
         '400':
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /user/profile:
+ 
+
+  /user/transaction/post:
     post:
       security:
         - Bearer: []
       tags:
         - User Module
-      summary: User Profile API
-      description: API for fetching a user profile
+      summary: Transaction API
+      definition:
+        ApiResponse:
+           type: object
+           properties:
+             status:
+               type: integer
+             message:
+               type: string
+             body:
+               type: object
+               properties:
+                 id:
+                   type: string
+                 email:
+                   type: string
+      description: API for fetching a tranaction
       parameters:
         - in: header
+          type: string
           name: Authorization
-          description: Attach Bearer JWT token
+          description: Attach transaction
           required: true
       produces:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: Transaction retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
+            $ref: 'ApiResponse'
         '400':
           description: Invalid Fields
         '500':
@@ -86,26 +113,27 @@ paths:
         - Bearer: []
       tags:
         - User Module
-      summary: User Profile API
-      description: API for updating a user profile
+      summary: Transaction API
+      description: API for updating a transaction
       parameters:
         - in: header
+          type: string
           name: Authorization
           description: Attach Bearer JWT token
           required: true
         - in: body
           name: body
-          description: Update user profile attributes
+          description: Update user transaction
           required: true
           schema:
-            $ref: '#/definitions/UserProfile'
+            $ref: '#/definitions/Transaction'
       produces:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: Transaction Data retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
+            $ref: 'ApiResponse'
         '400':
           description: Invalid Fields
         '500':
@@ -116,51 +144,32 @@ securityDefinitions:
     name: Authorization
     in: header
 definitions:
-  User:
+  Transaction:
     properties:
-      email:
+      id:
+        type: number
+        description: the id of the transaction
+      date:
         type: string
-        description: user email
-      password:
+        description: date of transaction
+      description:
         type: string
-        description: user password
-      firstName:
-        type: string
-        description: user first name
-      lastName:
-        type: string
-        description: user last name
-  Login:
+        description: The name of the company
+      amount:
+        type: number
+        description: The amount of money
+      balance:
+        type: number
+        description: The balance of the account 
+  Additional information:
     properties:
-      email:
+      transaction Type:
         type: string
-        description: user email
-      password:
+        description: Electric
+      category:
         type: string
-        description: user password
-  ApiResponse:
-    type: object
-    properties:
-      status:
-        type: integer
-      message:
+        description: Food
+      notes:
         type: string
-      body:
-        type: object
-        properties:
-          id:
-            type: string
-          email:
-            type: string
-  LoginResponse:
-    type: object
-    properties:
-      token:
-        type: string
-  UserProfile:
-    type: object
-    properties:
-      firstName:
-        type: string
-      lastName:
-        type: string
+        description: Notes
+    
