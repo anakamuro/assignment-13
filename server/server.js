@@ -66,17 +66,17 @@ let  transactions = [
     category:"",
     notes:""
   }, },
-  { id: 1, date: 'June 20th, 2020', amount: 30, balance: 2117.79, extra: {
+  { id: 4, date: 'June 20th, 2020', amount: 30, balance: 2117.79, extra: {
     transactions_type: "electronics type",
     category:"",
     notes:""
   }, },
-  { id: 1, date: 'June 20th, 2020', amount: 40, balance: 2147.79, extra: {
+  { id: 5, date: 'June 20th, 2020', amount: 40, balance: 2147.79, extra: {
     transactions_type: "electronics type",
     category:"",
     notes:""
   }, },
-  { id: 1, date: 'June 20th, 2020', amount: 50, balance: 2187.79, extra: {
+  { id: 6, date: 'June 20th, 2020', amount: 50, balance: 2187.79, extra: {
     transactions_type: "electronics type",
     category:"",
     notes:""
@@ -100,8 +100,9 @@ app.get('/api/v1/user/transaction/:id', (req, res) => {
 
 app.delete('/api/v1/user/transactions/:id', (req, res) => {
   const { id } = req.params
-  const response = transactions.filter((item) => item.id !== parseInt(id))
-  transactions = response;
+  //const response = transactions.filter((item) => item.id !== parseInt(id))
+ //transactions = response;
+  transactions = transactions.filter((transaction) => transaction.id !== id)
   return res.status(200).send({message: "Transaction deleted successfully" })
 
 })
