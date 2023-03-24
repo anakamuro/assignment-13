@@ -1,4 +1,3 @@
-
 swagger: '2.0'
 info:
   title:  Bank Argent API documentation
@@ -35,37 +34,11 @@ paths:
         '500':
           description: Internal Server Error
          
-  /user/inventory/{id}:
-    patch:
-      summary: user inventory
-      parameters:
-        - name: id
-          in: path
-          description: ID of the inventory
-          required: true
-          schema:
-           type: number
-        - in: body
-          name: body
-          description: Update user inventory Payload
-          required: true
-          schema:
-            type: object
-            $ref: '#/definitions/InventoryUpdateBody'
-      responses:
-       '200':
-          description: updated Successfully
-          schema:
-            $ref: '#/definitions/InventoryUpdateBody'
-       '400':
-          description: Invalid Fields
-       '500':
-          description: Internal Server Error
-  /user/transactions/{id}:
+  /user/transactions/{transaction_id}:
     patch:
       summary: update single transaction
       parameters:
-        - name: id
+        - name: transaction_id
           in: path
           description: ID of the user
           required: true
@@ -90,12 +63,6 @@ paths:
   /user/transactions:
     get:
       summary: Get all transactions
-      responses:
-        '200':
-          description: OK
-  /user/inventories:
-    get:
-      summary: Get all inventories
       responses:
         '200':
           description: OK
@@ -154,6 +121,21 @@ definitions:
         balance:
           type: number
           description: transaction balance
+        extra:
+          type: object
+          properties:
+            transaction_type: 
+              enum: 
+                - electronics type
+                - food type
+            category:
+              enum:
+                - food
+                - vegetable
+                - fruits
+            notes:
+              type: string
+                
     TransactionUpdateBody:
       properties:
         date:
@@ -165,17 +147,25 @@ definitions:
         balance:
           type: number
           description: transaction balance
-    InventoryUpdateBody: 
-      properties:
-        type:
-          type: string
-          description: transaction type
-        category:
-          type: string
-          description: category
-        notes:
-          type: string
-          description: notes       
+        extra:
+          type: object
+          properties:
+            transaction_type: 
+              enum:
+                - electronics 
+                - cash
+                - credit
+                - business
+            category:
+              enum:
+                - Food
+                - Vegetable
+                - Fruits
+                - Bread
+                - Pastries
+            notes:
+              type: string
+   
 
 
 

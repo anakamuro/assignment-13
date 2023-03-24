@@ -1,175 +1,176 @@
 swagger: '2.0'
 info:
-  title: Bank Argent API documentation
-  description: Contains all available API endpoints in this codebase
+  title:  Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase 
   version: '1.0.0'
   termsOfService: 'http://swagger.io/terms/'
 host: localhost:8000
-basePath: /api/v1/
+basePath: /api/v1/user
 schemes:
   - http
+consumes:
+  - application/json
+produces:
+- application/json
 paths:
-  user/transactions:
-    post:
-      tags:
-        - User Module
-      summary: transaction
-      description: API for transaction
-      parameters:
-        - in: body
-          name: body
-          description: Transaction Payload
-          required: true
-          schema:
-            $ref: '#/definitions/Transaction'
-      produces:
+  /user/transactions/{id}:
+     delete:
+       summary: delete transaction
+       description: API for Transaction delete 
+      #  parameters:
+      #    - name: id
+      #      in: path
+      #      description: ID of the transaction
+      #      required: true
+      #      schema:
+      #      type: number
+       produces:
         - application/json
-      responses:
-        '200':
-          description: transaction came Successfully
-          schema:
-            type: object
-            items:
+       responses:
+         '200':
+           description: delete Transaction Successfully         
+         '400':
+           description: Invalid Fields
+         '500':           
+           description: Internal Server Error
+  /user/inventory/{id}:
+     patch:
+       summary: user inventory
+       parameters:
+         - name: id
+           in: path
+           description: ID of the inventory
+           required: true
+           schema:
+            type: number
+         - in: body
+           name: body
+           description: Update user inventory Payload
+           required: true
+           schema:
              type: object
-             properties:
-              id:
-                type: number
-                description: the id of the transaction
-              date:
-                type: string
-                description: date of transaction
-              description:
-                type: string
-                description: The name of the company
-              amount:
-                type: number
-                description: The amount of money
-              balance:
-                type: number
-                description: The balance of the account 
+             $ref: '#/definitions/InventoryUpdateBody'
+       responses:
+        '200':           
+           description: updated Successfully
+           schema:
+             $ref: '#/definitions/InventoryUpdateBody'
         '400':
-          description: Invalid Fields
+           description: Invalid Fields        
         '500':
-          description: Internal Server Error
-  /user/transactions:
-    get:
-      tags:
-        - User Module
-      summary: get
-      description: API for Transaction get 
-      produces:
-        - application/json
+           description: Internal Server Error
+/user/transactions/{id}:
+    patch:
+       summary: update single transaction
+       parameters:
+         - name: id
+           in: path
+           description: ID of the user
+           required: true
+           schema:
+           type: number
+         - in: body
+           name: body
+           description: Updated transaction Payload
+           required: true
+           schema:
+             type: object
+             $ref: '#/definitions/TransactionUpdateBody'
+             responses:
+       '200':
+           description: updated Successfully
+           schema:
+             $ref: '#/definitions/TransactionUpdateBody'
+       '400':          
+            description: Invalid Fields        
+       '500':
+           description: Internal Server Error
+   /user/transactions:
+     get:
+       summary: Get all transactions
+       responses:
+         '200':          
+            description: OK
+    /user/inventories:
+     get:      
+      summary: Get all inventories
       responses:
-        '200':
-          description: Get Transaction Successfully
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
- 
-
-  /user/transaction/post:
-    post:
-      security:
-        - Bearer: []
-      tags:
-        - User Module
-      summary: Transaction API
-      definition:
-        ApiResponse:
-           type: object
-           properties:
-             status:
-               type: integer
-             message:
-               type: string
-             body:
-               type: object
-               properties:
-                 id:
-                   type: string
-                 email:
-                   type: string
-      description: API for fetching a tranaction
-      parameters:
-        - in: header
-          type: string
-          name: Authorization
-          description: Attach transaction
-          required: true
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Transaction retrieved successully
-          schema:
-            $ref: 'ApiResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-    put:
-      security:
-        - Bearer: []
-      tags:
-        - User Module
-      summary: Transaction API
-      description: API for updating a transaction
-      parameters:
-        - in: header
-          type: string
-          name: Authorization
-          description: Attach Bearer JWT token
-          required: true
-        - in: body
-          name: body
-          description: Update user transaction
+         '200':
+           description: OK
+     /user/transaction/{id}:   
+      get:
+       summary: Get single transaction
+       parameters:
+        - name: id          
+          in: path
+          description: ID of the user
           required: true
           schema:
-            $ref: '#/definitions/Transaction'
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Transaction Data retrieved successully
-          schema:
-            $ref: 'ApiResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-securityDefinitions:
-  Bearer:
-    type: apiKey
-    name: Authorization
-    in: header
-definitions:
-  Transaction:
-    properties:
-      id:
-        type: number
-        description: the id of the transaction
-      date:
-        type: string
-        description: date of transaction
-      description:
-        type: string
-        description: The name of the company
-      amount:
-        type: number
-        description: The amount of money
-      balance:
-        type: number
-        description: The balance of the account 
-  Additional information:
-    properties:
-      transaction Type:
-        type: string
-        description: Electric
-      category:
-        type: string
-        description: Food
-      notes:
-        type: string
-        description: Notes
-    
+            type: number      
+            responses:
+          '200':
+           description: single transaction fetched Successfully
+           schema:
+            $ref: '#/definitions/TransactionBody'
+          '400':
+           description: Invalid Fields
+          '500':
+           description: Internal Server Error
+    /user/transaction:
+     post:
+       summary: Post a transaction
+       parameters:
+         - in: body
+           name: body
+           description: Transaction Payload
+           required: true
+           schema:
+             $ref: '#/definitions/TransactionBody'
+       produces:
+         - application/json
+       responses:
+         '200':
+           description: transaction posted Successfully
+           schema:
+             $ref: '#/definitions/TransactionBody'
+         '400':
+           description: Invalid Fields
+         '500':
+           description: Internal Server Error
+    definitions:
+     TransactionBody:
+       properties:
+         id:
+           type: number          
+           description: transaction id
+         date:        
+           type: string
+           description: transaction date
+         amount:
+           type: number
+           description: transaction amount     
+         balance:
+           type: number
+           description: transaction balance    
+     TransactionUpdateBody:
+       properties:
+         date:
+           type: string
+           description: transaction date
+         amount:
+           type: number         
+           description: transaction amount
+         balance:
+           type: number         
+           description: transaction balance
+     InventoryUpdateBody:      
+       properties:
+         type:
+           type: string
+           description: transaction type
+         category:
+           type: string
+           description: category
+         notes:
+           type: string
+           description: notes
