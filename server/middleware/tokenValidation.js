@@ -23,3 +23,15 @@ module.exports.validateToken = (req, res, next) => {
 
   return res.status(response.status).send(response)
 }
+
+module.exports.verifyRefreshToken = ( refreshToken )  =>{
+return new Promise((resolve, reject) => {
+  jwt.verify(refreshToken, process.env.REACT_APP_JWT_SECRET, (err, payload) => {
+    if(err) return reject(console.log('Bad request'))
+    const userId = payload.aud
+    userId;
+
+    resolve(refreshToken)
+  })
+})
+}

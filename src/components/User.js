@@ -1,17 +1,17 @@
 import './style.css';
-import React, { useEffect, useMemo, useState } from "react"
-import { post, setAuthToken } from '../util/fetch'
-import { login } from "../features/userSlice.js"
+import React, { useEffect, useState } from "react"
+import { post  } from '../util/fetch'
+//import { login } from "../features/userSlice.js"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux';
-import store from '../app/store';
-import { TOKEN } from '../util/constants';
-import { put ,get} from "../util/fetch";
+//import store from '../app/store';
+import { Tokens } from '../util/constants';
+import { put} from "../util/fetch";
 import { updateProfile,getUserProfile } from '../features/userSlice.js';
 
 
 function User() {
-  const [inputValue, setInputValue] = useState('')
+  //const [inputValue, setInputValue] = useState('')
   const [userData, setUserData] = useState({
     firstName: '',
     lastName: ''
@@ -25,12 +25,15 @@ function User() {
 
   useEffect(() => {
     // Get user data from localstorage and set the auth
-    let user = window.localStorage.getItem(TOKEN)
-    if (user) {
-      user = JSON.parse(user)
-      console.log(user)
-      setAuthToken(user?.token)
-    }
+    let user = window.localStorage.getItem(Tokens)
+    // let user = localStorage.getItem('token')
+    // user = JSON.parse(user)
+    console.log('getting token', user)
+    // if (user) {
+    //   user = JSON.parse(user)
+    //   console.log(user)
+    //   setAuthToken(user?.token)
+    // }
    
     post('/user/profile').then((data) => {
       const currentUser = data.data.body;

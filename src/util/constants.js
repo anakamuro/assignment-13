@@ -1,1 +1,2 @@
-export const TOKEN = '@TOKEN'
+export const Tokens = '@TOKEN'
+// export const Tokens = 'token'

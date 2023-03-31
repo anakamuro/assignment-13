@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux"
 import { post,get } from "../util/fetch";
 import { login } from "../features/userSlice.js"
 import { Link, useNavigate } from "react-router-dom"
-import { TOKEN, USER_STORAGE_KEY } from "../util/constants";
+import { Tokens, USER_STORAGE_KEY } from "../util/constants";
 
 function SignIn() {
   const path = useNavigate()
@@ -26,19 +26,28 @@ function SignIn() {
   }
 
   const handleSubmit = (e) => {
+    
+    
     e.preventDefault();
     post('/user/login', {
       email: username,
       password
+    // }).then((response) => {
+    //   return response.json()
+    
     }).then((response) => {
-      console.log(response)
-      const token = response.data.token
-      console.log(token)
+      // alert('in resp')
+      console.log('resp',response)
+      const data= response.data.body.token
+      // console.log('tokennn on login',data)
+      console.log('tokennn on login',data)
       // save user data to localstorage, so when app refreshes, // we'll get it and dispatch to redux store
-      window.localStorage.setItem(TOKEN, JSON.stringify(token))
-      dispatch(login(token))
+      // json.stringify is only required if data waas in json like {token: 'abcd'}, and we just have a stirng already
+      window.localStorage.setItem(Tokens, data)
+      dispatch(login(data))
       path('/user')
     }).catch((error) => {
+      console.log('in error')
       console.log(error)
     })
 

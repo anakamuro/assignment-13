@@ -1,14 +1,19 @@
 const express = require('express')
+const jwt = require("jsonwebtoken")
+const config = require("./config")
 const dotEnv = require('dotenv')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
 const yaml = require('yamljs')
 const swaggerDocs = yaml.load('./swagg.yaml')
 const dbConnection = require('./database/connection')
+const {body, validationResult} = require("express-validator")
+const {users} = require("../scripts/populateDatabase.js")
+const bcrypt = require("bcrypt")
 console.log(swaggerDocs)
-const cookieParser = require('cookie-parser')
-const app = express()
-app.use(cookieParser())
+
+
+
 
 
 const corsOptions = {
@@ -21,7 +26,7 @@ const corsOptions = {
 
 dotEnv.config()
 
-
+const app = express()
 const PORT = process.env.PORT || 8000
 
 // Connect to the database
@@ -50,6 +55,92 @@ app.use('api/v1/user/signup', require('./scripts/populateDatabase'))
 
 app.get('/', (req, res, next) => {
   res.send('Hello from my Express server v2!')
+})
+
+app.post("user/signup", 
+body("email").isEmail(),
+body("password").isLength({ min:6 }),
+  async (req, res) => {
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const email = req.body.email;
+  const password = req.body.password
+  const errors = validationResult(req)
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors: errors.array()})
+  }
+  const user = users.find((user) => user.email == email);
+  if(user){
+    return res.status(400).json([
+      {
+        message: "The user already exists."
+      }
+    ])
+  }
+
+   let hashedPassword = await bcrypt.hash(password, 10)
+   console.log(hashedPassword)
+
+   users.push({
+    firstName, 
+    lastName, 
+    password: hashedPassword, 
+    email
+   });
+
+   const token = await jwt.sign(
+    {
+    email
+   }, 
+    "SECRET_KEY",
+    {
+      expiresIn: "24h",
+    }
+   )
+
+   return res.json({
+    token: token, 
+   })
+ }
+)
+
+app.post("user/login", async (req, res) => {
+  const {email, password} = req.body;
+
+  const user = users.find((user) => user.email === email)
+  if(!user) {
+    return res.status(400).json([
+      {
+        message: "The user does not exists"
+      }
+  ])
+ }
+ const isMatch = await bcrypt.compare(password, users.password);
+
+ if(!isMatch){
+  return res.status(400).json([
+    {
+      message: "password is wrong",
+    }
+])
+ }
+ const token = await jwt.sign(
+  {
+  email
+ }, 
+  "SECRET_KEY",
+  {
+    expiresIn: "24h",
+  }
+ )
+
+ return res.json({
+  token: token, 
+ })
+})
+
+app.get("allUsers", (req, res) => {
+  return res.json(users)
 })
 
 let  transactions = [
@@ -95,7 +186,7 @@ app.get('/api/v1/user/transactions', (req, res) => {
 
 app.get('/api/v1/user/transaction/:id', (req, res) => {
   const { id } = req.params
-  const response = transactions.filter((item) => item.id === parseInt(id))
+  const response = transactions.filter((transction) => transction.id === parseInt(id))
   res.status(200).send(response)
   return;
 })
@@ -104,7 +195,7 @@ app.delete('/api/v1/user/transactions/:id', (req, res) => {
   const { id } = req.params
   //const response = transactions.filter((item) => item.id !== parseInt(id))
  //transactions = response;
-  transactions = transactions.filter((transaction) => transaction.id !== id)
+  transactions = transactions.filter((transaction) => transaction.id !== parseInt(id))
   return res.status(200).send({message: "Transaction deleted successfully" })
 
 })
@@ -138,9 +229,9 @@ app.post('/api/v1/user/transaction', (req, res) => {
   const body = req.body
   const id = parseInt(body.id)
   
-  const exist = transactions.filter((item)=>item.id === id);
+  const transction = transactions.filter((transction)=>transction.id === id);
 
-    if(exist.length > 0 ){
+    if(transction.length > 0 ){
       return res.status(200).send('Transaction alrady exist')
     }
 
