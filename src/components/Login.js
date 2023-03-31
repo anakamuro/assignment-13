@@ -42,7 +42,7 @@ function SignIn() {
       // console.log('tokennn on login',data)
       console.log('tokennn on login',data)
       // save user data to localstorage, so when app refreshes, // we'll get it and dispatch to redux store
-      // json.stringify is only required if data waas in json like {token: 'abcd'}, and we just have a stirng already
+      // json.stringify is only required if data waas in json like {token: 'abcd'}, and I just have a stirng already
       window.localStorage.setItem(Tokens, data)
       dispatch(login(data))
       path('/user')
