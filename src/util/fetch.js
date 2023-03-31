@@ -6,7 +6,7 @@ import { Tokens } from "./constants";
 
 // const state = store.getState().user?.user
 // state.token was not set properly , but token was set in local stroage , so i used that
-// token in local storage was. a string, wee needed to convert it to variable/json so i added JSON.parse(<string here>) 
+// token in local storage was. a string, I needed to convert it to variable/json so i added JSON.parse(<string here>) 
 // opposite of JSON.parse() is JSON.stringify(<json>) return a string
 // Axios.create is a feature , which basically sets the header of token in every axios call (so we dont define in every call)
 const instance = Axios.create({
